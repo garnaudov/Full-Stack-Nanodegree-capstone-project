@@ -44,7 +44,7 @@ class Actor(db.Model):
         })
 
     def __repr__(self):
-        return f'Actor:'+self.id+'. '+self.name
+        return f'Actor: {self.id}, {self.name}'
 
 
 class Movie(db.Model):
@@ -74,4 +74,4 @@ class Movie(db.Model):
         })
 
     def __repr__(self):
-        return f'Movie:'+self.id+'. '+self.title
+        return f'Movie:{self.id}, {self.title}'
