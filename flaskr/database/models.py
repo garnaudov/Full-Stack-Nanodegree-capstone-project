@@ -2,20 +2,23 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 
 db = SQLAlchemy()
+database_name = 'casting_agency'
+database_path = "postgresql://postgres:password@localhost:5432/casting_agency"
 
 
-def setup_db(app):
-    app.config['SQLALCHEMY_DATABASE_URI'] = "postgresql://postgres:password@localhost:5432/casting_agency"
+def setup_db(app, database_path=database_path):
+    app.config['SQLALCHEMY_DATABASE_URI'] = database_path
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     db.app = app
     db.init_app(app)
+
+
     migrate = Migrate(app, db)
 
 
 def create_and_drop_all():
     db.drop_all()
     db.create_all()
-
 
 class Actor(db.Model):
     __tablename__ = 'actors'
@@ -69,7 +72,7 @@ class Movie(db.Model):
         return({
             "id": self.id,
             "title": self.title,
-            "release_date": self.release_date,
+            "release_date": self.release_date.isoformat(),
             "genre": self.genre
         })
 

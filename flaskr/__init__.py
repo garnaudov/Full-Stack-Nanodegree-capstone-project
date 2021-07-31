@@ -35,10 +35,15 @@ def create_app(test_config=None):
         print("\n\nGet movies api hit:\n\n")
         try:
             movies = Movie.query.all()
-            if movies is None:
+            if len(movies) == 0:
                 abort(404)
             movies = [movie.get_formatted_json() for movie in movies]
-            return jsonify(movies)
+            print(movies)
+            return jsonify({"success": True,
+                            "movies": movies})
+        except NotFound as e:
+            print(sys.exc_info())
+            abort(404)
         except:
             print(sys.exc_info())
             abort(422)
@@ -57,6 +62,37 @@ def create_app(test_config=None):
                 "success": True,
                 "movie_id": movie.id
             })
+        except KeyError as e:
+            print(sys.exc_info())
+            abort(400)
+        except:
+            print(sys.exc_info())
+            abort(422)
+
+    @app.route('/movie/<int:movie_id>', methods=['PATCH'])
+    def modify_movie(movie_id):
+        print("patch api on /movie hit:\n\n")
+        try:
+            data = request.get_json()
+            print(data, movie_id, '\n\n')
+            movie = Movie.query.get(movie_id)
+            if movie is None:
+                abort(404)
+            if 'title' in data:
+                movie.title = data["title"]
+            if 'release_date' in data:
+                movie.release_date = data["release_date"]
+            if 'genre' in data:
+                movie.genre = data["genre"]
+            movie.update()
+            print(movie, "modified\n\n")
+            return jsonify({
+                "success": True,
+                "movie": movie.get_formatted_json()
+            })
+        except NotFound as e:
+            print(sys.exc_info())
+            abort(404)
         except:
             print(sys.exc_info())
             abort(422)
@@ -89,13 +125,16 @@ def create_app(test_config=None):
         print("\n\nGet actors api hit:\n\n")
         try:
             actors = Actor.query.all()
-            if actors is None:
+            if len(actors) == 0:
                 abort(404)
             actors = [actor.get_formatted_json() for actor in actors]
             return jsonify({
                 "success": True,
                 "actors": actors
             })
+        except NotFound as e:
+            print(sys.exc_info())
+            abort(404)
         except:
             print(sys.exc_info())
             abort(422)
@@ -118,6 +157,34 @@ def create_app(test_config=None):
             print(sys.exc_info())
             abort(422)
 
+    @app.route('/actor/<int:actor_id>', methods=['PATCH'])
+    def modify_actor(actor_id):
+        print("patch api on /actors hit:\n\n")
+        try:
+            data = request.get_json()
+            print(data, actor_id, '\n\n')
+            actor = Actor.query.get(actor_id)
+            if actor is None:
+                abort(404)
+            if 'name' in data:
+                actor.name = data["name"]
+            if 'age' in data:
+                actor.age = data["age"]
+            if 'gender' in data:
+                actor.gender = data["gender"]
+            actor.update()
+            print(actor, "modified\n\n")
+            return jsonify({
+                "success": True,
+                "actor": actor.get_formatted_json()
+            })
+        except NotFound as e:
+            print(sys.exc_info())
+            abort(404)
+        except:
+            print(sys.exc_info())
+            abort(422)
+
     @app.route('/actor/<int:actor_id>', methods=['DELETE'])
     def delete_actor(actor_id):
         print("Delete api on /actor hit:\n\n")
@@ -126,7 +193,7 @@ def create_app(test_config=None):
             actor = Actor.query.get(actor_id)
             if actor is None:
                 abort(404)
-            # actor.delete()
+            actor.delete()
             print(actor, "deleted\n\n")
             return jsonify({
                 "success": True,
