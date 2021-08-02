@@ -2,8 +2,8 @@
 -- PostgreSQL database dump
 --
 
--- Dumped from database version 12.3
--- Dumped by pg_dump version 12.3
+-- Dumped from database version 13.2
+-- Dumped by pg_dump version 13.2
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -82,18 +82,6 @@ CREATE TABLE public.movies (
 ALTER TABLE public.movies OWNER TO postgres;
 
 --
--- Name: movies_actiors_worked_in; Type: TABLE; Schema: public; Owner: postgres
---
-
-CREATE TABLE public.movies_actiors_worked_in (
-    movie_id integer NOT NULL,
-    actor_id integer NOT NULL
-);
-
-
-ALTER TABLE public.movies_actiors_worked_in OWNER TO postgres;
-
---
 -- Name: movies_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
@@ -134,8 +122,9 @@ ALTER TABLE ONLY public.movies ALTER COLUMN id SET DEFAULT nextval('public.movie
 --
 
 COPY public.actors (id, name, age, gender) FROM stdin;
-1	rish	23	male
-2	gopi	26	male
+1	Jason Statham	55	male
+2	Liam Neeson	56	male
+3	Meryl Streep	57	female
 \.
 
 
@@ -144,7 +133,7 @@ COPY public.actors (id, name, age, gender) FROM stdin;
 --
 
 COPY public.alembic_version (version_num) FROM stdin;
-f12c63f40571
+2fa3b79ce10a
 \.
 
 
@@ -153,18 +142,9 @@ f12c63f40571
 --
 
 COPY public.movies (id, title, release_date, genre) FROM stdin;
-3	Dark knight	2020-01-01	Super Hero
-4	Rush hour	2020-01-01	Comedy
-1	Avengers	2019-01-02	SuperHero
-5	Avengers	2019-01-02	SuperHero
-\.
-
-
---
--- Data for Name: movies_actiors_worked_in; Type: TABLE DATA; Schema: public; Owner: postgres
---
-
-COPY public.movies_actiors_worked_in (movie_id, actor_id) FROM stdin;
+1	Titanic	2002-08-02	Drama
+2	Transoporter	2001-08-02	Action
+3	Star Wars	2001-08-02	Fantasy
 \.
 
 
@@ -172,14 +152,14 @@ COPY public.movies_actiors_worked_in (movie_id, actor_id) FROM stdin;
 -- Name: actors_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.actors_id_seq', 2, true);
+SELECT pg_catalog.setval('public.actors_id_seq', 1, false);
 
 
 --
 -- Name: movies_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.movies_id_seq', 5, true);
+SELECT pg_catalog.setval('public.movies_id_seq', 1, false);
 
 
 --
@@ -199,35 +179,11 @@ ALTER TABLE ONLY public.alembic_version
 
 
 --
--- Name: movies_actiors_worked_in movies_actiors_worked_in_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public.movies_actiors_worked_in
-    ADD CONSTRAINT movies_actiors_worked_in_pkey PRIMARY KEY (movie_id, actor_id);
-
-
---
 -- Name: movies movies_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.movies
     ADD CONSTRAINT movies_pkey PRIMARY KEY (id);
-
-
---
--- Name: movies_actiors_worked_in movies_actiors_worked_in_actor_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public.movies_actiors_worked_in
-    ADD CONSTRAINT movies_actiors_worked_in_actor_id_fkey FOREIGN KEY (actor_id) REFERENCES public.actors(id);
-
-
---
--- Name: movies_actiors_worked_in movies_actiors_worked_in_movie_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public.movies_actiors_worked_in
-    ADD CONSTRAINT movies_actiors_worked_in_movie_id_fkey FOREIGN KEY (movie_id) REFERENCES public.movies(id);
 
 
 --
