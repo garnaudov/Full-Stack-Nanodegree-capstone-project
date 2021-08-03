@@ -287,7 +287,7 @@ class CastingAgencyTestCase(unittest.TestCase):
     def test_patch_actor(self):
         actor = {
             "name": "Nina Dobrev",
-            "gender": "female",
+            "gender": "female"
         }
         actor_db = Actor.query.order_by(Actor.id).first()
         res = self.client().patch('/actors/'+str(actor_db.id),
