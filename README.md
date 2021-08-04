@@ -78,11 +78,11 @@ https://dev-06u0yfz9.eu.auth0.com/authorize?audience=casting-agency&response_typ
 
 You can use the credentials below to login:
 
-- Casting assistant role:
+- Casting assistant role - can view actors and movies:
   - email: `casting.assitant@udacity.com` password: `g_hNa67L?L-tb+.`
-- Casting director role:
+- Casting director role - has all permissions that the assistant has and also add, modify, delete actor and modify movie:
   - email: `casting.director@udacity.com` password: `?L-tb+.g_hNa67L`
-- Executive producer role:
+- Executive producer role - has all permissions that the casting director has + add, delete movies:
   - email: `executive.producer@udacity.com` password: `?L-thNa67Lb+.g_`
 
 Generated tokens:
