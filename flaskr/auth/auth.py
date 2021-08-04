@@ -22,6 +22,14 @@ class AuthError(Exception):
     def __repr__(self):
         return 'class'+str(self.error)+" code "+str(self.status_code)+' what'
 
+'''
+ check_permissions(permission, payload) method
+    @INPUTS
+        permission: permission string (for example 'view:actors')
+        payload: jwt payload /decoded/
+    return AuthError if permissions is not in the payload array; otherwise returns true
+'''
+
 def check_permissions(permissions, payload):
     if 'permissions' not in payload:
         abort(400)
@@ -49,6 +57,14 @@ def get_token_auth_header():
         }, 401)
     return auth_header[1]
 
+'''
+verify_decode_jwt(token) method
+    @INPUTS
+        token: JWT auth token with kid (string)
+
+    returns the decoded payload from the token after verifying via Auth0 domain and validating the claims
+    otherwise returns AuthError
+'''
 
 def verify_decode_jwt(auth_token):
     jsonurl = urlopen(f'https://{AUTH0_DOMAIN}/.well-known/jwks.json')
@@ -103,6 +119,13 @@ def verify_decode_jwt(auth_token):
                 'description': 'Cannot find the appropriate key.'
     }, 401)
     return unverified_header
+
+'''
+@requires_auth(permission) decorator method
+    @INPUTS
+        permission: permission string (i.e. 'view:actors')
+    returns the decorator which passes the decoded payload to the decorated method after getting, verifying and checking permissions
+'''
 
 def requires_auth(permission=''):
     def requires_auth_decorator(f):
