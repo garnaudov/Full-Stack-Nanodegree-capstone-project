@@ -39,7 +39,6 @@ def create_app(test_config=None):
             actors = [actor.get_formatted_json() for actor in actors]
             return jsonify({"success": True, "actors": actors})
         except Exception as e:
-            print(e)
             x = str(e)[:3]
             abort(int(x))
 
@@ -54,7 +53,6 @@ def create_app(test_config=None):
             actor.insert()
             return jsonify({"success": True, "actor_id": actor.id})
         except Exception as e:
-            print(e)
             x = str(e)[:3]
             abort(int(x))
 
@@ -77,7 +75,6 @@ def create_app(test_config=None):
             actor.update()
             return jsonify({"success": True, "actor": actor.get_formatted_json()})
         except Exception as e:
-            print(e)
             x = str(e)[:3]
             abort(int(x))
 
@@ -91,7 +88,6 @@ def create_app(test_config=None):
             actor.delete()
             return jsonify({"success": True, "deleted": actor.id})
         except Exception as e:
-            print(e)
             x = str(e)[:3]
             abort(int(x))
 
@@ -105,7 +101,6 @@ def create_app(test_config=None):
             movies = [movie.get_formatted_json() for movie in movies]
             return jsonify({"success": True, "movies": movies})
         except Exception as e:
-            print(e)
             x = str(e)[:3]
             abort(int(x))
 
@@ -124,7 +119,6 @@ def create_app(test_config=None):
             movie.insert()
             return jsonify({"success": True, "movie_id": movie.id})
         except Exception as e:
-            print(e)
             x = str(e)[:3]
             abort(int(x))
 
@@ -147,7 +141,6 @@ def create_app(test_config=None):
             movie.update()
             return jsonify({"success": True, "movie": movie.get_formatted_json()})
         except Exception as e:
-            print(e)
             x = str(e)[:3]
             abort(int(x))
 
@@ -161,7 +154,6 @@ def create_app(test_config=None):
             movie.delete()
             return jsonify({"success": True, "deleted": movie.id})
         except Exception as e:
-            print(e)
             x = str(e)[:3]
             abort(int(x))
 
